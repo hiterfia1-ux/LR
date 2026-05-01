@@ -23,9 +23,20 @@
         </audio>
 
         <div id="controls-container">
-            <button id="music-btn" class="control-btn cute-btn" title="Musik">
-                <i class="fas fa-music"></i>
-            </button>
+            <div class="music-control-wrapper">
+                <button id="music-btn" class="control-btn cute-btn" title="Musik">
+                    <i class="fas fa-compact-disc"></i>
+                </button>
+                <div id="playlist-popup" class="playlist-popup">
+                    <div class="playlist-header">
+                        <span>Pilih Lagu</span>
+                        <button id="close-playlist"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="playlist-body" id="playlist-items">
+                        <!-- Items injected via JS -->
+                    </div>
+                </div>
+            </div>
             <div id="autoplay-btn" class="auto-swipe-btn active" title="Auto Scroll">
                 <i class="fas fa-sync-alt"></i>
                 <span>Auto</span>
@@ -190,7 +201,7 @@
                         
                         <!-- Lutfia (Left) -->
                         <div class="mempelai-side" style="width: 47%; background: rgba(255,255,255,0.5); border-radius: 15px; padding: 10px; text-align: center; border: 1px solid var(--glass-border);">
-                            <img src="https://placehold.co/150x150/A38C76/F9F6F0?text=L" style="width: 100%; aspect-ratio: 1; border-radius: 10px; object-fit: cover; border: 2px solid var(--accent-color); margin-bottom: 10px;">
+                            <div style="width: 100%; aspect-ratio: 1; border-radius: 10px; background: #A38C76; color: #F9F6F0; display: flex; align-items: center; justify-content: center; font-size: 4rem; font-family: 'Playfair Display', serif; border: 2px solid var(--accent-color); margin-bottom: 10px;">L</div>
                             <h2 class="mempelai-name" style="font-size: 1.4rem; line-height: 1.1; margin-bottom: 8px; word-wrap: break-word;">Lutfiatun Nadhiroh S., S.Pd.</h2>
                             <p class="mempelai-parents" style="font-size: 0.7rem; line-height: 1.3; opacity: 0.9;">Putri dari Bpk Awang Surahman (Siomay) <br>& Ibu Sutasmawati (Sutamah)</p>
                         </div>
@@ -200,9 +211,9 @@
                         
                         <!-- Rozak (Right) -->
                         <div class="mempelai-side" style="width: 47%; background: rgba(255,255,255,0.5); border-radius: 15px; padding: 10px; text-align: center; border: 1px solid var(--glass-border);">
-                            <img src="https://placehold.co/150x150/A38C76/F9F6F0?text=R" style="width: 100%; aspect-ratio: 1; border-radius: 10px; object-fit: cover; border: 2px solid var(--accent-color); margin-bottom: 10px;">
+                            <div style="width: 100%; aspect-ratio: 1; border-radius: 10px; background: #A38C76; color: #F9F6F0; display: flex; align-items: center; justify-content: center; font-size: 4rem; font-family: 'Playfair Display', serif; border: 2px solid var(--accent-color); margin-bottom: 10px;">R</div>
                             <h2 class="mempelai-name" style="font-size: 1.4rem; line-height: 1.1; margin-bottom: 8px; word-wrap: break-word;">Mukhamad Abdul Rozak</h2>
-                            <p class="mempelai-parents" style="font-size: 0.7rem; line-height: 1.3; opacity: 0.9;">Putra dari Bpk Alm. M Abdul Rouf (Paris) <br>& Ibu Siti Munawaroh (Mun)</p>
+                            <p class="mempelai-parents" style="font-size: 0.7rem; line-height: 1.3; opacity: 0.9;">Putra dari Bpk Alm. M Abdul Rouf <br>& Ibu Siti Munawaroh</p>
                         </div>
                         
                     </div>
@@ -311,7 +322,7 @@
                         </div>
                         <hr style="border: none; border-top: 1.5px dashed var(--text-color); width: 60%; margin: 0 auto;">
                     </div>
-                    <p class="slide-subtitle" style="margin-bottom: 15px; font-size: 0.9rem;">Bagi yang ingin mengirim ampao bisa melalui no rekening berikut,</p>
+                    <p class="slide-subtitle" style="margin-bottom: 15px; font-size: 0.9rem;">Bagi tamu undangan yang ingin mengirimkan kado atau tanda kasih secara digital, dapat melalui rekening berikut:</p>
                     
                     <div class="gift-box-row">
                         <div style="display: flex; align-items: center; gap: 15px;">
@@ -408,7 +419,7 @@
                     <h3 class="closing-names" style="color: var(--accent-color); margin-top: 0;">Lutfia & Rozak</h3>
                     <p style="margin-top:20px; font-size:0.8rem; opacity:0.7;">
                         Keluarga Bpk Awang Surahman (Siomay) & Ibu Sutasmawati (Sutamah) <br> 
-                        Keluarga Bpk Alm. M Abdul Rouf (Paris) & Ibu Siti Munawaroh (Mun)
+                        Keluarga Bpk Alm. M Abdul Rouf & Ibu Siti Munawaroh
                     </p>
                 </div>
             </div>

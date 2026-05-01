@@ -36,64 +36,119 @@ document.addEventListener('DOMContentLoaded', () => {
     const coverPage = document.getElementById('cover-page');
     const bgMusic = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-btn');
+    const playlistPopup = document.getElementById('playlist-popup');
+    const playlistItems = document.getElementById('playlist-items');
+    const closePlaylist = document.getElementById('close-playlist');
     const autoplayBtn = document.getElementById('autoplay-btn');
 
     // Playlist lagu
-    const playlist = ['lagu.mp3', 'lagu2.mp3', 'lagu3.mp3']; // Tambahkan nama file lagu di sini
+    const playlist = [
+        { name: 'Lagu Utama', file: 'lagu.mp3' },
+        { name: 'Lagu Kedua', file: 'lagu2.mp3' },
+        { name: 'Lagu Ketiga', file: 'lagu3.mp3' }
+    ];
     let currentTrack = 0;
     let isPlaying = false;
     let isAutoPlaying = true;
 
-    const loadTrack = (index) => {
+    // Generate Playlist Items
+    const renderPlaylist = () => {
+        if (!playlistItems) return;
+        playlistItems.innerHTML = '';
+        playlist.forEach((track, index) => {
+            const item = document.createElement('div');
+            item.className = `playlist-item ${index === currentTrack ? 'active' : ''}`;
+            item.innerHTML = `
+                <i class="fas ${index === currentTrack && isPlaying ? 'fa-pause' : 'fa-play'}"></i>
+                <span>${track.name}</span>
+            `;
+            item.onclick = () => {
+                if (index === currentTrack) {
+                    togglePlay();
+                } else {
+                    currentTrack = index;
+                    loadAndPlay(currentTrack);
+                }
+                renderPlaylist();
+            };
+            playlistItems.appendChild(item);
+        });
+    };
+
+    const loadAndPlay = (index) => {
         if (bgMusic) {
-            bgMusic.src = playlist[index];
+            bgMusic.src = playlist[index].file;
             bgMusic.load();
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                updateMusicUI();
+            });
         }
     };
 
-    // Load lagu pertama
-    loadTrack(currentTrack);
+    const togglePlay = () => {
+        if (!bgMusic) return;
+        if (isPlaying) {
+            bgMusic.pause();
+            isPlaying = false;
+        } else {
+            bgMusic.play();
+            isPlaying = true;
+        }
+        updateMusicUI();
+        renderPlaylist();
+    };
+
+    const updateMusicUI = () => {
+        if (isPlaying) {
+            musicBtn.classList.add('active', 'music-record-active');
+            musicBtn.innerHTML = '<i class="fas fa-compact-disc"></i>';
+        } else {
+            musicBtn.classList.remove('active', 'music-record-active');
+            musicBtn.innerHTML = '<i class="fas fa-compact-disc"></i>';
+        }
+    };
+
+    // Initial render
+    renderPlaylist();
 
     const playNextTrack = () => {
         currentTrack = (currentTrack + 1) % playlist.length;
-        loadTrack(currentTrack);
-        bgMusic.play().catch(e => console.log("Playback failed:", e));
+        loadAndPlay(currentTrack);
+        renderPlaylist();
     };
 
     if (bgMusic) {
         bgMusic.addEventListener('ended', playNextTrack);
     }
 
-    if (btnBuka) {
-        btnBuka.addEventListener('click', () => {
-            coverPage.classList.add('opened');
-            if (bgMusic) {
-                bgMusic.play().then(() => {
-                    isPlaying = true;
-                    if (musicBtn) {
-                        musicBtn.classList.add('active');
-                        musicBtn.innerHTML = '<i class="fas fa-music"></i>';
-                    }
-                }).catch(err => {
-                    console.log("Autoplay prevented", err);
-                });
-            }
-            setTimeout(() => { coverPage.style.display = 'none'; }, 1000);
+    if (musicBtn) {
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playlistPopup.classList.toggle('show');
         });
     }
 
-    if (musicBtn && bgMusic) {
-        musicBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                bgMusic.pause();
-                musicBtn.classList.remove('active');
-                musicBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            } else {
-                bgMusic.play();
-                musicBtn.classList.add('active');
-                musicBtn.innerHTML = '<i class="fas fa-music"></i>';
-            }
-            isPlaying = !isPlaying;
+    if (closePlaylist) {
+        closePlaylist.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playlistPopup.classList.remove('show');
+        });
+    }
+
+    document.addEventListener('click', () => {
+        if (playlistPopup) playlistPopup.classList.remove('show');
+    });
+
+    if (playlistPopup) {
+        playlistPopup.addEventListener('click', (e) => e.stopPropagation());
+    }
+
+    if (btnBuka) {
+        btnBuka.addEventListener('click', () => {
+            coverPage.classList.add('opened');
+            loadAndPlay(currentTrack);
+            setTimeout(() => { coverPage.style.display = 'none'; }, 1000);
         });
     }
 
