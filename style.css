@@ -1,0 +1,264 @@
+/* CSS Variables - Exact Premium Theme */
+:root {
+    --bg-cream: #F9F7F2; 
+    --primary-maroon: #7D0A0A; 
+    --primary-gold: #D4AF37; 
+    --text-dark: #4A2C2A;
+    --text-light: #FFFFFF;
+    
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+    --font-script: 'Great Vibes', cursive;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    background-color: #333; /* Dark background outside the invitation */
+    line-height: 1.6;
+    overflow: hidden; /* Hide scrollbars for Swiper */
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Stamp Border Container */
+.stamp-wrapper {
+    width: 100%;
+    max-width: 450px; 
+    height: 100vh;
+    background-color: var(--bg-cream);
+    position: relative;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    /* Linen texture background combined with stamp effect */
+    background-image: 
+        radial-gradient(circle at 0 10px, transparent 5px, rgba(249, 247, 242, 0.95) 6px),
+        radial-gradient(circle at 100% 10px, transparent 5px, rgba(249, 247, 242, 0.95) 6px),
+        url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    background-size: 100% 20px, 100% 20px, auto;
+    background-position: 0 0, 100% 0, 0 0;
+    padding: 0 15px; 
+    overflow: hidden;
+}
+
+/* Ribbon Bookmark */
+.ribbon-bookmark {
+    position: absolute;
+    top: -5px;
+    right: 25px;
+    width: 30px;
+    height: 60px;
+    background-color: var(--primary-maroon);
+    z-index: 100;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+.ribbon-bookmark::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    border-left: 15px solid var(--primary-maroon);
+    border-right: 15px solid var(--primary-maroon);
+    border-bottom: 15px solid transparent;
+}
+
+/* Swiper Styling */
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Typography Elements */
+h1, h2, h3 { font-family: var(--font-heading); font-weight: 600; }
+.text-gold { color: var(--primary-gold); }
+.text-maroon { color: var(--primary-maroon); }
+.text-script {
+    font-family: var(--font-script);
+    color: var(--primary-gold);
+    font-size: 3.5rem;
+    line-height: 1.2;
+}
+
+/* Utilities */
+.hidden { display: none !important; }
+
+/* Buttons */
+.btn-primary {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--text-dark);
+    color: var(--text-light);
+    border-radius: 5px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    border: none;
+    margin-top: 20px;
+}
+.btn-primary:hover {
+    background-color: var(--primary-maroon);
+}
+
+/* Floral Ornaments */
+.floral-ornament {
+    width: 150px;
+    margin-bottom: 20px;
+}
+.floral-divider {
+    width: 100px;
+    margin: 20px auto;
+}
+
+/* Cover Overlay */
+.cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-cream);
+    background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+.cover-overlay.opened {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* Tilted Box for Names */
+.tilted-box-wrapper {
+    position: relative;
+    margin: 30px 0;
+    width: 110%;
+    left: -5%;
+}
+.tilted-box {
+    background-color: var(--primary-maroon);
+    padding: 40px 10px;
+    transform: rotate(-4deg);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    border-top: 2px solid var(--primary-gold);
+    border-bottom: 2px solid var(--primary-gold);
+}
+.tilted-content {
+    transform: rotate(4deg); /* Counter-rotate text so it remains straight */
+    color: var(--text-light);
+}
+.tilted-content .ampersand {
+    font-family: var(--font-script);
+    color: var(--primary-gold);
+    font-size: 3rem;
+    display: block;
+    margin: -10px 0;
+}
+.name-text {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+}
+
+/* Countdown */
+.countdown-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+.cd-box {
+    text-align: center;
+}
+.cd-num {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--primary-maroon);
+    display: block;
+}
+.cd-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    letter-spacing: 1px;
+}
+.cd-separator {
+    font-size: 1.5rem;
+    color: var(--primary-gold);
+    margin-bottom: 15px;
+}
+
+/* Cards & Envelope */
+.info-card {
+    background-color: #fff;
+    border: 1px solid var(--primary-gold);
+    padding: 25px 15px;
+    margin: 15px 0;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 4px; left: 4px; right: 4px; bottom: 4px;
+    border: 1px dashed rgba(212, 175, 55, 0.5);
+    pointer-events: none;
+}
+
+/* Animations for Swiper active slide */
+.swiper-slide-active .anim-up {
+    animation: fadeInUp 1s forwards ease-out;
+}
+.anim-up {
+    opacity: 0;
+    transform: translateY(30px);
+}
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Music Button */
+.music-btn {
+    position: fixed;
+    bottom: 25px;
+    right: max(15px, calc(50% - 200px)); 
+    width: 45px;
+    height: 45px;
+    background-color: var(--text-dark);
+    color: var(--primary-gold);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+}
+.music-btn.playing i { animation: spin 4s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }

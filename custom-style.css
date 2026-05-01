@@ -1,0 +1,856 @@
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@300;400;600&display=swap');
+
+:root {
+    --primary-color: #F9F6F0;
+    /* Soft Cream/Beige Background */
+    --secondary-color: #EFEBE0;
+    /* Slightly darker cream */
+    --accent-color: #8B7355;
+    /* Stronger brown accent */
+    --text-color: #1A1510;
+    /* Very dark brown/almost black for crisp text */
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(139, 115, 85, 0.3);
+    --glass-shadow: 0 8px 32px 0 rgba(26, 21, 16, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--text-color);
+    background: #1a080d;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* App Container (Phone Frame in Desktop Mode) */
+#app-container {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #F9F6F0 0%, #EFEBE0 100%);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+/* Desktop Frame Mode Active */
+body.frame-mode #app-container {
+    width: 414px;
+    height: 90vh;
+    max-height: 896px;
+    border-radius: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 10px #222;
+    margin: auto;
+    border: 2px solid #555;
+}
+
+/* Toggle Button */
+#mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: var(--glass-bg);
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.3s;
+    display: none;
+    /* Only show on larger screens */
+}
+
+#mode-toggle:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+@media (min-width: 768px) {
+    #mode-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+.cinzel {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+}
+
+.cover-names,
+.mempelai-name,
+.closing-names {
+    font-family: 'Parisienne', cursive !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: 1px;
+}
+
+/* Background Animation inside app-container */
+#bg-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Sketch Branch Decor */
+.branch-decor {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    opacity: 0;
+    transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.swiper-slide-active .branch-decor {
+    opacity: 0.6;
+}
+
+.branch-top-right {
+    top: -10px;
+    right: -10px;
+    transform: scale(1.1);
+}
+
+.branch-bottom-left {
+    bottom: -10px;
+    left: -10px;
+    transform: scale(1.1);
+}
+
+/* Heart Symbol Decor */
+.heart-icon {
+    width: 40px;
+    height: 40px;
+    margin: 15px auto;
+    display: block;
+    opacity: 0.8;
+}
+
+/* Cute Section Icons */
+.section-icon {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 10px auto;
+    display: block;
+    filter: drop-shadow(0 4px 6px rgba(163, 140, 118, 0.2));
+}
+
+/* Background Orchid Watermark */
+.bg-orchid {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    opacity: 0.06;
+    /* Very subtle watermark */
+    z-index: 1;
+    pointer-events: none;
+}
+
+.bg-orchid-1 {
+    top: 5%;
+    left: -100px;
+    animation: floatingOrchid 12s ease-in-out infinite alternate;
+}
+
+.bg-orchid-2 {
+    bottom: 5%;
+    right: -100px;
+    animation: floatingOrchid2 15s ease-in-out infinite alternate;
+}
+
+@keyframes floatingOrchid {
+    0% {
+        transform: rotate(15deg) scale(1) translate(0, 0);
+    }
+
+    100% {
+        transform: rotate(25deg) scale(1.05) translate(20px, -20px);
+    }
+}
+
+@keyframes floatingOrchid2 {
+    0% {
+        transform: rotate(-30deg) scale(1) translate(0, 0);
+    }
+
+    100% {
+        transform: rotate(-20deg) scale(1.05) translate(-20px, 20px);
+    }
+}
+
+/* Swiper Container */
+.swiper {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    max-height: 85vh;
+    max-height: 85dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: var(--glass-shadow);
+    z-index: 3;
+}
+
+/* Custom Scrollbar for Glass Card */
+.glass-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.glass-card::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+/* Cover Overlay */
+#cover-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #FAF7F2 0%, #EFEBE0 100%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+#cover-page.opened {
+    transform: translateY(-100%);
+}
+
+.cover-content {
+    text-align: center;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.cover-title {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    color: var(--accent-color);
+}
+
+.cover-names {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+}
+
+.cover-to {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    background: rgba(163, 140, 118, 0.15);
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+}
+
+.btn-buka {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+}
+
+.btn-buka:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: #ffffff;
+}
+
+/* Specific Section Styles */
+.slide-title {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.title-sub {
+    font-family: 'Parisienne', cursive;
+    font-size: 2.8rem;
+    color: rgba(139, 115, 85, 0.15);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    white-space: nowrap;
+    width: 100%;
+    pointer-events: none;
+}
+
+.title-wrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.slide-subtitle {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.mempelai-box {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.mempelai-name {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.mempelai-parents {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.dan-text {
+    font-size: 2rem;
+    margin: 5px 0;
+    color: var(--accent-color);
+}
+
+/* Countdown */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1.5rem;
+}
+
+.cd-box {
+    background: rgba(163, 140, 118, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    min-width: 60px;
+    border: 1px solid var(--glass-border);
+}
+
+.cd-num {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+}
+
+.cd-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Event Details & Map */
+.event-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.event-title {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.event-time {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.event-address {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.9;
+    margin-bottom: 15px;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    box-shadow: var(--glass-shadow);
+}
+
+.btn-map {
+    display: inline-block;
+    background: transparent;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 8px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.btn-map:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+/* Location Stacked Buttons */
+.btn-location-outline {
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-location-outline:hover {
+    background: rgba(139, 115, 85, 0.1);
+}
+
+.btn-location-solid {
+    background: linear-gradient(135deg, #c4a98b, #8b7355);
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(139, 115, 85, 0.3);
+}
+
+.btn-location-solid:hover {
+    box-shadow: 0 6px 15px rgba(139, 115, 85, 0.5);
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Gift Section New Layout */
+.gift-box-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.gift-rek {
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    color: var(--text-color);
+}
+
+.btn-icon-copy {
+    background: white;
+    border: none;
+    color: #ffb6b9;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.btn-icon-copy:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.btn-icon-copy.copied {
+    background: #4CAF50;
+    color: white;
+}
+
+/* Original Gift Section (Kept for fallback) */
+.gift-box {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.gift-logo {
+    height: 30px;
+    margin-bottom: 10px;
+    filter: brightness(0) invert(0);
+    opacity: 0.8;
+}
+
+.btn-copy {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--text-color);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-copy:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+/* RSVP Form */
+.rsvp-form {
+    text-align: left;
+    margin-top: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-color);
+    font-family: 'Quicksand', sans-serif;
+}
+
+.form-control::placeholder {
+    color: rgba(74, 66, 56, 0.6);
+}
+
+.form-control option {
+    color: black;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background: white;
+}
+
+/* Floating Controls */
+#controls-container {
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.control-btn.cute-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--glass-border);
+    color: #2F4F4F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: -2px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.control-btn.cute-btn:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.control-btn.cute-btn.active {
+    color: var(--accent-color);
+}
+
+.control-btn.cute-btn.active i {
+    animation: bounce 2s infinite;
+}
+
+.auto-swipe-btn {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--glass-border);
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: -2px 4px 10px rgba(0, 0, 0, 0.1);
+    color: #2F4F4F;
+    font-size: 0.65rem;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.auto-swipe-btn i {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+    color: #2F4F4F;
+    transition: all 0.3s;
+}
+
+.auto-swipe-btn.active i {
+    animation: spin 3s linear infinite;
+    color: #3b82f6;
+    /* cute blue */
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scroll hint */
+.scroll-hint {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.7;
+    animation: bounceRight 2s infinite;
+}
+
+.scroll-hint i {
+    font-size: 1.2rem;
+    margin-top: 0;
+}
+
+@keyframes bounceRight {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateX(0);
+    }
+
+    40% {
+        transform: translateX(10px);
+    }
+
+    60% {
+        transform: translateX(5px);
+    }
+}
+
+/* =========================================
+   1. FIX TAMPILAN GOOGLE MAPS BIAR ESTETIK
+   ========================================= */
+.map-container {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 5px;
+    border: 1px solid #e0d8c8;
+    border-radius: 15px;
+}
+
+.map-container iframe {
+    /* Menyamarkan warna bawaan Google Maps menjadi agak kecoklatan/warm */
+    filter: grayscale(40%) sepia(40%) hue-rotate(-20deg);
+    opacity: 0.9;
+    border-radius: 12px;
+}
+
+
+/* =========================================
+   2. ANIMASI TRANSISI ELEGAN PER SLIDE
+   ========================================= */
+/* State Awal (Saat slide belum aktif / tersembunyi) */
+.swiper-slide .glass-card,
+.swiper-slide .slide-title,
+.swiper-slide .section-icon,
+.swiper-slide .slide-subtitle,
+.swiper-slide .mempelai-side,
+.swiper-slide .event-card,
+.swiper-slide .gift-box-row,
+.swiper-slide p,
+.swiper-slide .closing-names {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Glass card scale entry effect */
+.swiper-slide .glass-card {
+    transform: translateY(30px) scale(1.1);
+}
+
+/* State Aktif (Muncul berurutan saat slide aktif) */
+.swiper-slide-active .glass-card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+}
+
+.swiper-slide-active .slide-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 200ms; /* Judul (200ms) */
+}
+
+.swiper-slide-active .section-icon {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 400ms; /* Icon (400ms) */
+}
+
+.swiper-slide-active .slide-subtitle,
+.swiper-slide-active p,
+.swiper-slide-active .mempelai-side,
+.swiper-slide-active .event-card,
+.swiper-slide-active .gift-box-row,
+.swiper-slide-active .closing-names {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 600ms; /* Teks (600ms) */
+}
