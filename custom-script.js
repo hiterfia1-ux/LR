@@ -8,22 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
         keyboard: {
             enabled: true,
         },
-        parallax: true,
-        speed: 1500, // Kecepatan lebih lambat agar halus
+        speed: 800, // Slightly faster for responsiveness
         allowTouchMove: true,
-        effect: 'creative',
-        creativeEffect: {
-            limitProgress: 2,
-            prev: {
-                shadow: false,
-                translate: ['-100%', 0, -100],
-                rotate: [0, 0, -20], // Efek mengelupas halus
-                opacity: 0,
-            },
-            next: {
-                translate: ['100%', 0, 0],
-            },
-        },
         autoplay: {
             delay: 5000,
             disableOnInteraction: false,
@@ -31,60 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
         touchStartPreventDefault: false,
     });
 
-    // 2. Audio & Playlist logic
+    // 2. Audio logic
     const btnBuka = document.getElementById('btn-buka');
     const coverPage = document.getElementById('cover-page');
     const bgMusic = document.getElementById('bg-music');
     const musicBtn = document.getElementById('music-btn');
-    const playlistPopup = document.getElementById('playlist-popup');
-    const playlistItems = document.getElementById('playlist-items');
-    const closePlaylist = document.getElementById('close-playlist');
     const autoplayBtn = document.getElementById('autoplay-btn');
 
-    // Playlist lagu
-    const playlist = [
-        { name: 'Lagu Utama', file: 'lagu.mp3' },
-        { name: 'Lagu Kedua', file: 'lagu2.mp3' },
-        { name: 'Lagu Ketiga', file: 'lagu3.mp3' }
-    ];
-    let currentTrack = 0;
     let isPlaying = false;
     let isAutoPlaying = true;
-
-    // Generate Playlist Items
-    const renderPlaylist = () => {
-        if (!playlistItems) return;
-        playlistItems.innerHTML = '';
-        playlist.forEach((track, index) => {
-            const item = document.createElement('div');
-            item.className = `playlist-item ${index === currentTrack ? 'active' : ''}`;
-            item.innerHTML = `
-                <i class="fas ${index === currentTrack && isPlaying ? 'fa-pause' : 'fa-play'}"></i>
-                <span>${track.name}</span>
-            `;
-            item.onclick = () => {
-                if (index === currentTrack) {
-                    togglePlay();
-                } else {
-                    currentTrack = index;
-                    loadAndPlay(currentTrack);
-                }
-                renderPlaylist();
-            };
-            playlistItems.appendChild(item);
-        });
-    };
-
-    const loadAndPlay = (index) => {
-        if (bgMusic) {
-            bgMusic.src = playlist[index].file;
-            bgMusic.load();
-            bgMusic.play().then(() => {
-                isPlaying = true;
-                updateMusicUI();
-            });
-        }
-    };
 
     const togglePlay = () => {
         if (!bgMusic) return;
@@ -96,58 +37,32 @@ document.addEventListener('DOMContentLoaded', () => {
             isPlaying = true;
         }
         updateMusicUI();
-        renderPlaylist();
     };
 
     const updateMusicUI = () => {
         if (isPlaying) {
             musicBtn.classList.add('active', 'music-record-active');
-            musicBtn.innerHTML = '<i class="fas fa-compact-disc"></i>';
         } else {
             musicBtn.classList.remove('active', 'music-record-active');
-            musicBtn.innerHTML = '<i class="fas fa-compact-disc"></i>';
         }
     };
-
-    // Initial render
-    renderPlaylist();
-
-    const playNextTrack = () => {
-        currentTrack = (currentTrack + 1) % playlist.length;
-        loadAndPlay(currentTrack);
-        renderPlaylist();
-    };
-
-    if (bgMusic) {
-        bgMusic.addEventListener('ended', playNextTrack);
-    }
 
     if (musicBtn) {
         musicBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            playlistPopup.classList.toggle('show');
+            togglePlay();
         });
-    }
-
-    if (closePlaylist) {
-        closePlaylist.addEventListener('click', (e) => {
-            e.stopPropagation();
-            playlistPopup.classList.remove('show');
-        });
-    }
-
-    document.addEventListener('click', () => {
-        if (playlistPopup) playlistPopup.classList.remove('show');
-    });
-
-    if (playlistPopup) {
-        playlistPopup.addEventListener('click', (e) => e.stopPropagation());
     }
 
     if (btnBuka) {
         btnBuka.addEventListener('click', () => {
             coverPage.classList.add('opened');
-            loadAndPlay(currentTrack);
+            if (bgMusic) {
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    updateMusicUI();
+                });
+            }
             setTimeout(() => { coverPage.style.display = 'none'; }, 1000);
         });
     }
@@ -212,17 +127,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const petals = [];
-        const petalCount = 40; // Number of petals
+        const petalCount = 20; // Reduced count for performance
 
         for (let i = 0; i < petalCount; i++) {
             petals.push({
                 x: Math.random() * width,
                 y: Math.random() * height - height,
-                size: Math.random() * 10 + 10,
-                speedX: Math.random() * 2 - 1,
-                speedY: Math.random() * 1 + 1,
+                size: Math.random() * 8 + 8,
+                speedX: Math.random() * 1.5 - 0.75,
+                speedY: Math.random() * 0.8 + 0.8,
                 rotation: Math.random() * 360,
-                rotationSpeed: Math.random() * 2 - 1
+                rotationSpeed: Math.random() * 1.5 - 0.75
             });
         }
 
@@ -231,15 +146,27 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.translate(p.x, p.y);
             ctx.rotate((p.rotation * Math.PI) / 180);
             ctx.beginPath();
-            // Draw an elegant soft petal shape
-            ctx.ellipse(0, 0, p.size, p.size / 1.8, 0, 0, Math.PI * 2);
-            // Soft brown / goldish color for the light theme
-            ctx.fillStyle = "rgba(163, 140, 118, 0.4)";
+            ctx.ellipse(0, 0, p.size, p.size / 2, 0, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(163, 140, 118, 0.35)";
             ctx.fill();
             ctx.restore();
         }
 
-        function updatePetals() {
+        let lastTime = 0;
+        function updatePetals(time) {
+            // Only animate if tab is visible to save battery/CPU
+            if (document.hidden) {
+                requestAnimationFrame(updatePetals);
+                return;
+            }
+
+            // Cap at ~60fps
+            if (time - lastTime < 16) {
+                requestAnimationFrame(updatePetals);
+                return;
+            }
+            lastTime = time;
+
             ctx.clearRect(0, 0, width, height);
             for (let i = 0; i < petalCount; i++) {
                 let p = petals[i];
@@ -247,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 p.y += p.speedY;
                 p.rotation += p.rotationSpeed;
 
-                if (p.y > height) {
+                if (p.y > height + 20) {
                     p.y = -20;
                     p.x = Math.random() * width;
                 }
@@ -259,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(updatePetals);
         }
 
-        updatePetals();
+        requestAnimationFrame(updatePetals);
     }
 });
 
@@ -295,32 +222,3 @@ function copyToClipboardIcon(text, btn) {
     });
 }
 
-// RSVP Form Submission Handler
-const rsvpForm = document.getElementById('rsvpForm');
-if (rsvpForm) {
-    rsvpForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const name = document.getElementById('rsvpName').value;
-        const status = document.getElementById('rsvpStatus').value;
-        const msg = document.getElementById('rsvpMsg').value;
-
-        // Example: Sending to WhatsApp
-        const waNumber = "6281234567890"; // Ganti dengan nomor WhatsApp mempelai
-        const waText = `Halo, saya ${name}.%0A%0AKonfirmasi Kehadiran: *${status}*%0A%0APesan/Doa:%0A${msg}`;
-        const waLink = `https://wa.me/${waNumber}?text=${waText}`;
-
-        // Open WhatsApp
-        window.open(waLink, '_blank');
-
-        // Reset form
-        this.reset();
-
-        // Change button text temporarily
-        const btn = this.querySelector('.btn-submit');
-        const origText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i> Terkirim';
-        setTimeout(() => {
-            btn.innerHTML = origText;
-        }, 3000);
-    });
-}

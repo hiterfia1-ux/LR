@@ -19,7 +19,7 @@
     
     <div id="app-container">
         <audio id="bg-music" loop>
-            <source src="lagu.mp3" type="audio/mpeg">
+            <source src="the-way-you-look-at-me.mp3" type="audio/mpeg">
         </audio>
 
         <div id="controls-container">
@@ -27,15 +27,6 @@
                 <button id="music-btn" class="control-btn cute-btn" title="Musik">
                     <i class="fas fa-compact-disc"></i>
                 </button>
-                <div id="playlist-popup" class="playlist-popup">
-                    <div class="playlist-header">
-                        <span>Pilih Lagu</span>
-                        <button id="close-playlist"><i class="fas fa-times"></i></button>
-                    </div>
-                    <div class="playlist-body" id="playlist-items">
-                        <!-- Items injected via JS -->
-                    </div>
-                </div>
             </div>
             <div id="autoplay-btn" class="auto-swipe-btn active" title="Auto Scroll">
                 <i class="fas fa-sync-alt"></i>
@@ -335,16 +326,6 @@
                         Bank BCA<br>Atas Nama Lutfiatun Nadhiroh
                     </div>
 
-                    <div class="gift-box-row">
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <img src="https://img.icons8.com/color/48/bank-cards.png" width="28" height="28" alt="Card">
-                            <div class="gift-rek">023001094000500</div>
-                        </div>
-                        <button class="btn-icon-copy" onclick="copyToClipboardIcon('023001094000500', this)"><i class="far fa-copy"></i></button>
-                    </div>
-                    <div style="font-size: 0.85rem; text-align: center; margin-bottom: 30px; line-height: 1.4;">
-                        Bank BRI<br>Atas Nama Mukhamad Abdul Rozak
-                    </div>
 
                     <!-- Kado Fisik -->
                     <div style="text-align: center; margin-bottom: 5px;">
@@ -370,36 +351,6 @@
                 </div>
             </div>
 
-            <!-- Slide 6: RSVP -->
-            <div class="swiper-slide">
-                <svg class="branch-decor branch-top-right"><use href="#branch-tr"></use></svg>
-                <svg class="branch-decor branch-bottom-left"><use href="#branch-bl"></use></svg>
-                <div class="glass-card">
-                    <svg class="section-icon"><use href="#icon-rsvp"></use></svg>
-                    <div class="title-wrapper">
-                        <h2 class="slide-title cinzel">Kehadiran</h2>
-                        <div class="title-sub">Kehadiran</div>
-                    </div>
-                    <p class="slide-subtitle">Konfirmasi kehadiran Bapak/Ibu/Saudara/i pada form berikut:</p>
-                    
-                    <form class="rsvp-form" id="rsvpForm">
-                        <div class="form-group">
-                            <input type="text" id="rsvpName" class="form-control" placeholder="Nama Anda" required>
-                        </div>
-                        <div class="form-group">
-                            <select id="rsvpStatus" class="form-control" required>
-                                <option value="" disabled selected>Apakah Anda akan hadir?</option>
-                                <option value="Hadir">Ya, Saya Hadir</option>
-                                <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="rsvpMsg" class="form-control" rows="3" placeholder="Ucapan / Doa untuk Mempelai" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Kirim Konfirmasi</button>
-                    </form>
-                </div>
-            </div>
 
             <!-- Slide 7: Penutup -->
             <div class="swiper-slide">
